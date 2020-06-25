@@ -1,0 +1,343 @@
+﻿@model Project.Models.PublishmentModel
+
+@{
+    ViewBag.Title = "OpenPage";
+}
+
+<h2>@Model.title</h2>
+
+
+<div class="row">
+<div class="col-12">
+<div class="card">
+
+<div class="card-body">
+<div class="card-title mb-4">
+    <div class="d-flex justify-content-start">
+        <div class="userData ml-3">
+            @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+            {
+                <p class="d-block">Η δημοσίευση σας ανήκει επομένως μπορείτε να την τροποποιήσετε</p>
+                <button id="update_button" class="  btn  btn-primary d-block">Ενημέρωση</button>
+                <br/>
+                <button id="delete_button" class="  btn  btn-danger d-block">Διαγραφή</button>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+<div class="col-12">
+
+<div class="tab-content ml-1" id="myTabContent">
+<div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">Uploader:</label>
+    </div>
+    <div class="col-md-8 col-6">
+        <input readonly="" class="form-control" type="text" value="@Model.publihser_name"/>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">Μονάδα στην οποία ανήκει:</label>
+    </div>
+    <div class="col-md-8 col-6">
+        <input readonly="" class="form-control" type="text" value="@Model.unit"/>
+    </div>
+</div>
+<hr/>
+
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">Εκδόθηκε από</label>
+    </div>
+    <div class="col-md-8 col-6">
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+        {
+            <input id="author_val" class="form-control" type="text" value="@Model.authors"/>
+        }
+        else
+        {
+            @Model.authors
+        }
+
+    </div>
+</div>
+<hr/>
+
+
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">Τόμος</label>
+    </div>
+    <div class="col-md-8 col-6">
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+        {
+            if (Model.type == "inproceeding")
+            {
+                <inpu readonly id="volume_val" class="form-control" type="text" value="@Model.volume"/>
+            }
+            else
+            {
+                <input id="volume_val" class="form-control" type="text" value="@Model.volume"/>
+            }
+        }
+        else
+        {
+            @Model.volume
+        }
+
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">Σελίδες</label>
+    </div>
+    <div class="col-md-8 col-6">
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+        {
+            if (Model.type == "inbook" || Model.type == "book")
+            {
+                <input readonly id="pages_val" class="form-control" type="text" value="@Model.pages"/>
+            }
+            else
+            {
+                <input id="pages_val" class="form-control" type="text" value="@Model.pages"/>
+            }
+        }
+        else
+        {
+            @Model.pages
+        }
+
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">Διαθέσιμα url</label>
+    </div>
+    <div class="col-md-8 col-6">
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+        {
+            if (Model.type == "book" || Model.type == "inbook")
+            {
+                <input readonly id="adresses_val" class="form-control" type="text" value="@Model.adrresses"/>
+            }
+            else
+            {
+                <input id="adresses_val" class="form-control" type="text" value="@Model.adrresses"/>
+            }
+        }
+        else
+        {
+            @Model.adrresses
+        }
+
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">Μέσον Έκδοσης</label>
+    </div>
+    <div class="col-md-8 col-6">
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+        {
+            if (Model.type == "book" || Model.type == "inbook")
+            {
+                <input readonly id="medianame_val" class="form-control" type="text" value="@Model.medianame"/>
+            }
+            else
+            {
+                <input id="medianame_val" class="form-control" type="text" value="@Model.medianame"/>
+            }
+        }
+        else
+        {
+            @Model.medianame
+        }
+
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">Έτος</label>
+    </div>
+    <div class="col-md-8 col-6">
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+        {
+            <input id="year_val" class="form-control" type="text" value="@Model.year"/>
+        }
+        else
+        {
+            @Model.year
+        }
+
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">ISBN</label>
+    </div>
+    <div class="col-md-8 col-6">
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+        {
+            if (Model.type == "article" || Model.type == "inproceeding")
+            {
+                <input readonly id="id_val" class="form-control" type="text" value="@Model.ISBN"/>
+            }
+            else
+            {
+                <input id="isbn_val" class="form-control" type="text" value="@Model.ISBN"/>
+            }
+        }
+        else
+        {
+            @Model.ISBN
+        }
+
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">ISSN</label>
+    </div>
+    <div class="col-md-8 col-6">
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+        {
+            if (Model.type == "article" || Model.type == "inproceeding")
+            {
+                <input readonly id="issn_val" class="form-control" type="text" value="@Model.ISSN"/>
+            }
+            else
+            {
+                <input id="issn_val" class="form-control" type="text" value="@Model.ISSN"/>
+            }
+        }
+        else
+        {
+            @Model.ISSN
+        }
+
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-3 col-md-2 col-5">
+        <label style="font-weight: bold;">Κεφάλαιο</label>
+    </div>
+    <div class="col-md-8 col-6">
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == Model.publihser_name)
+        {
+            if (Model.type == "article" || Model.type == "inproceeding" || Model.type == "book")
+            {
+                <input readonly id="chapter_val" class="form-control" type="text" value="@Model.chapter"/>
+            }
+            else
+            {
+                <input id="chapter_val" class="form-control" type="text" value="@Model.chapter"/>
+            }
+        }
+        else
+        {
+            @Model.chapter
+        }
+
+    </div>
+</div>
+<hr/>
+
+</div>
+
+</div>
+</div>
+
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<script>
+    $("#update_button").click(function() {
+        var author = $("#author_val").val();
+        var volume = $("#volume_val").val();
+        var pages = $("#pages_val").val();
+        var addresses = $("#adresses_val").val();
+        var medianame = $("#medianame_val").val();
+        var year = $("#year_val").val();
+        var isbn = $("#issn_val").val();
+        var issn = $("#issn_val").val();
+        var chapter = $("#chapter_val").val();
+        var type = '@Model.type';
+        var title = '@Model.title';
+        var id = '@Model.id';
+        var _toserialize = {
+            authors: author,
+            volume: volume,
+            pages: pages,
+            adrreses: addresses,
+            medianame: medianame,
+            year: year,
+            ISBN: isbn,
+            ISSN: issn,
+            chapter: chapter,
+            type: type,
+            title: title,
+            id: id
+        };
+        var data = JSON.stringify({ 'model': _toserialize });
+        $.ajax({
+            type: 'POST',
+            data: data,
+            url: '@Url.Action("UpdatePublishment", "Published")',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                alert("Η ενέργεια ολοκληρώθηκε με επιτυχία");
+            }
+
+        });
+
+
+    });
+</script>
+
+<script>
+    $("#delete_button").click(function() {
+        var id = '@Model.id';
+        var title = '@Model.title';
+        var type = '@Model.type';
+        var _toserialize = { id: id, title: title, type: type };
+        var data = JSON.stringify({ 'model': _toserialize });
+        $.ajax(
+            {
+                data: data,
+                type: 'POST',
+                url: '@Url.Action("DeletePublishment", "Published")',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    if (data.success == true) {
+                        alert("Διαγράφηκε με επιτυχία");
+                        window.location.href = "/Published/PubManager";
+                    }
+
+
+                }
+
+            });
+    })
+</script>

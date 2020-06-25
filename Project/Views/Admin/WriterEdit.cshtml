@@ -1,0 +1,105 @@
+﻿@model Core.Models.Writer
+@{
+    ViewBag.Title = "WriterEdit";
+    var items = new List<string>();
+    items.Add("Καθηγητής");
+    items.Add("Ερευνητής");
+    items.Add("Τεχνικό Προσωπικό");
+    items.Add("Ερευνητικό Προσωπικό");
+
+}
+
+<h2>WriterEdit</h2>
+
+<div class="card mb-4 box-shadow">
+    <div class="card-header">
+        <h4 class="my-0 font-weight-normal">Συγγραφέας</h4>
+    </div>
+    <div class="card-body">
+        <h3 class="card-title pricing-card-title">Εγγραφή στοιχείων συγγραφέα:</h3>
+        <p id="para" class="lead">Τα στοιχεία πρέπει να είναι στα πρότυπα του dblp για την σύνδεσή σας με δημοσιευμένο υλικό!</p>
+        <form id="form5">
+            <div class="form-group row">
+                <label for="fname" class="col-sm-2 col-form-label">Όνομα:</label>
+                <div class="col-sm-10">
+                    <input required="true" type="text" value="@Model.name" class="form-control" id="fname">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="surrname" class="col-sm-2 col-form-label">Επώνυμο:</label>
+                <div class="col-sm-10">
+                    <input type="text" requirer="true" value="@Model.surrname" class="form-control" id="surrname">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="orchidurl" class="col-sm-2 col-form-label">OrchidURL:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" value="@Model.orchidURL" id="orchidurl">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="url" class="col-sm-2 col-form-label">Προσωπικό URL:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" value="@Model.privateURL" id="url">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="property" class="col-sm-2 col-form-label">Ιδιότητα:</label>
+                <div class="col-sm-10">
+                    <select id="selection2" class="form-control form-control-lg">
+                        @foreach (var item in items)
+                        {
+                            if (item == Model.property)
+                            {
+                                <option selected="selected">@item</option>
+                            }
+                            else
+                            {
+                                <option>@item</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-block btn-primary">Ολοκλήρωση</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $("#form5").submit(function(event) {
+        event.preventDefault();
+        name = $("#fname").val();
+        surrname = $("#surrname").val();
+        orchidURL = $("#orchidurl").val();
+        privateURL = $("#url").val();
+        property = $("#selection2").val();
+        ID = '@Model.ID';
+
+        var _toserialize = {
+            writername: name,
+            writersurrname: surrname,
+            writerorchidurl: orchidURL,
+            writerprivateurl: privateURL,
+            writerproperty: property,
+
+            ID: ID
+        };
+        var data = JSON.stringify({ 'model': _toserialize });
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UpdateWriter", "Admin")',
+            dataType: 'json',
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                if (data.success == true) {
+                    alert("Η προσθήκη ολοκληρώθηκε με επιτυχία!");
+                }
+
+            }
+        });
+    });
+</script>

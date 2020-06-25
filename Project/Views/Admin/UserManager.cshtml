@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Project.Models.AdminUserModel>
+@{
+    ViewBag.Title = "UserManager";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.Identity.Name == "admin")
+    {
+        if (User.Identity.Name == "admin")
+        {
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Membership</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Institute</th>
+                    <th scope="col">Role</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td scope="row">
+                            1
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.ID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.username)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.membership)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(m => item.insitute)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.role)
+                        </td>
+
+                        <td>
+                            <form method="post" onsubmit="return Mconfirm()" action="@Url.Action("Delete", "Admin", new {item.username})'">
+                                <button type="submit" class="btn btn-danger" value="Delete">Διαγραφή</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            <script>
+                function Mconfirm() {
+                    return confirm(
+                        "Είστε σίγουρος για την διαγραφή του στοιχείου? Η ενέργεια αυτή δεν θα μπορεί να αναιρεθεί");
+                }
+            </script>
+        }
+    }
+}

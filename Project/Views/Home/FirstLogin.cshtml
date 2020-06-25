@@ -1,0 +1,329 @@
+﻿@model IEnumerable<Project.Models.DropItems>
+@{
+    ViewBag.Title = "FirstLogin";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 id="name" class="display-4">@User.Identity.Name</h1>
+        <p id="para" class="lead">Καλωσορίστατε στην Πλατρφόρμα! Για την ολοκλήρωση του λογαριασμού σας θα χρειαστούν μερικές ακόμα πληροφορίες</p>
+
+
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Επιλογή Ρόλου</h4>
+            </div>
+            <div id="step1">
+                <div class="card-body">
+                    <h3 class="card-title pricing-card-title">Στην πλατφόρμα είμαι:</h3>
+
+                    <form id="form1">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input required="true" value="dim" type="radio" class="custom-control-input" name="optradio" id="choise2">
+                            <label class="custom-control-label" for="choise2">Δημοσιεύων</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" value="yp" class="custom-control-input" name="optradio" id="choise1">
+                            <label class="custom-control-label" for="choise1">Υπεύθυνος</label>
+                        </div>
+                        <br/>
+                        <button type="submit" class="btn btn-lg btn-block btn-primary">Επόμενο Βήμα</button>
+                    </form>
+
+                </div>
+
+            </div>
+            <div id="step2">
+                <div class="card-body">
+                    <h3 class="card-title pricing-card-title">Τέλος</h3>
+                    <p id="para" class="lead">Ωραία! Το μόνο που χρειάζεται είναι να συμπληρώσετε τα στοιχεία σας ως συγγραφέας και η εγγραφή σας θα ολοκληρωθεί</p>
+                </div>
+            </div>
+            <div id="step3">
+                <div class="card-body">
+                    <h3 class="card-title pricing-card-title">Στην πλατφόρμα είμαι:</h3>
+                    <div id="step1">
+                        <form id="form3">
+                            <p id="para" class="lead">Επιλέξτε την ομάδα που είστε υπεύθυνος. <small class="small">Εμφανίζονται μόνο οι διαθέσμιμες μονάδες</small></p>
+                            <select id="selection" class="form-control form-control-lg">
+                                @foreach (var item in Model)
+                                {
+                                    if (item.MasterID == "none")
+                                    {
+                                        <option>@Html.DisplayFor(m => item.ItemName)</option>
+                                    }
+                                }
+                            </select>
+
+                            <button type="submit" class="btn btn-lg btn-block btn-primary">Ολοκλήρωση</button>
+                        </form>
+                    </div>
+                </div>
+            </div> <br/>
+
+        </div>
+        <div id="step5">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Συγγραφέας</h4>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title pricing-card-title">Εγγραφή στοιχείων συγγραφέα:</h3>
+                    <p id="para" class="lead">Τα στοιχεία πρέπει να είναι στα πρότυπα του dblp για την σύνδεσή σας με δημοσιευμένο υλικό!</p>
+                    <form id="form5">
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-2 col-form-label">Όνομα:</label>
+                            <div class="col-sm-10">
+                                <input required="true" type="text" class="form-control" id="fname">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="surrname" class="col-sm-2 col-form-label">Επώνυμο:</label>
+                            <div class="col-sm-10">
+                                <input type="text" requirer="true" class="form-control" id="surrname">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="orchidurl" class="col-sm-2 col-form-label">OrchidURL:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="orchidurl">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="url" class="col-sm-2 col-form-label">Προσωπικό URL:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="url">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="property" class="col-sm-2 col-form-label">Ιδιότητα:</label>
+                            <div class="col-sm-10">
+                                <select id="selection2" class="form-control form-control-lg">
+                                    <option>Καθηγητής</option>
+                                    <option>Ερευνητής</option>
+                                    <option>Τεχνικό Προσωπικό</option>
+                                    <option>Ερευνητικό Προσωπικό</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-lg btn-block btn-primary">Ολοκλήρωση</button>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="finalwriter">
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title">Τέλος</h3>
+                <p id="para" class="lead">Η ενέργειά σας αποθηκεύτηκε και μπορεί πάντοτε να τροποποιηθεί στην καρτέλα Profile!</p>
+            </div>
+        </div>
+
+
+        <div id="step4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Συγγραφέας</h4>
+                </div>
+                <div class="card-body">
+                    <form id="form4">
+                        <p class="lead">Είστε μέλος κάποιας Μονάδας (Τμήμα/Εργστήριο)</p>
+                        <p class="h6">
+                            Σε περίπτωση που είστε συγγραφέας ενός ή περισσοτέρων δημοσιεύσεων καλείστε να συμπληρώστε την παρακάτω φόρμα
+                            (Σε περίπτωση που δεν είστε αγνοήστε την.) Η επιλογή σας μπορεί πάντοτε να τροποποιηθεί στην επιλογή προφίλ
+                        </p>
+
+                        <select id="member" class="form-control form-control-lg">
+                            @foreach (var item in Model)
+                            {
+                                <option>@Html.DisplayFor(m => item.ItemName)</option>
+                            }
+                            <option>Δεν είμαι μέλος σε κάποια μονάδα</option>
+                        </select>
+                        <button type="submit" class="btn btn-lg btn-block btn-primary">Επόμενο Βήμα</button>
+
+                    </form>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <button type="button" id="move2" class="btn btn-lg btn-block btn-success">Αποθήκευση και συνέχεια</button>
+
+
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#name").show(500);
+            $("#para").show(500);
+            $("#step2").hide();
+            $("#step3").hide();
+            $("#step5").hide();
+            $("#finalwriter").hide();
+        });
+    </script>
+
+
+    <script>
+        var data1;
+        var completed1 = false;
+        var completed2 = false;
+        $("#form1").submit(function(event) {
+            event.preventDefault();
+            $("#step1").hide(500);
+            data1 = $('input[name="optradio"]:checked').val();
+            if (data1 == "yp")
+                $("#step3").show(500);
+            else {
+                completed1 = true;
+                var username = '@User.Identity.Name';
+                var role = data1;
+                var _toserialize = { username: username, role: role };
+                var data = JSON.stringify({ 'model': _toserialize });
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AssignRoles", "Home")',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    success: function(data) {
+
+                    }
+
+                });
+                $("#step2").show(500);
+            }
+
+
+        });
+        $("#form2").submit(function(event) {
+            event.preventDefault();
+            if (data1 = "yp")
+                $("#step3").show;
+
+
+        });
+
+
+        $("#form3").submit(function(event) {
+            event.preventDefault();
+           
+            var selection = $("#selection").val();
+            if (selection == null) {
+                alert("Η επιλογή δεν είναι σωστή");
+                window.location.reload();
+                return;
+            }
+            var username = '@User.Identity.Name';
+            var role = data1;
+            var _toserialize = { username: username, role: role };
+            var data = JSON.stringify({ 'model': _toserialize });
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AssignRoles", "Home")',
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    if (data.success = true) {
+                        completed1 = true;
+                        var username = '@User.Identity.Name';
+                        var coursename = selection;
+                        var _toserialize = { username: username, coursename: coursename };
+                        var data = JSON.stringify({ 'model': _toserialize });
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("AddManager", "Home")',
+                            data: data,
+                            contentType: "application/json; charset=utf-8",
+                            success: function(data) {
+                                $("#step3").hide(500);
+                                $("#step2").show(500);
+                            }
+                        });
+                    }
+                }
+
+            });
+
+        });
+
+        $("#form4").submit(function(event) {
+            event.preventDefault();
+            if ($("#member").val() == "Δεν είμαι μέλος σε κάποια μονάδα") {
+                $("#step4").hide(500);
+                $("#step5").show(500);
+            } else {
+                var subscription = $("#member").val();
+                var username = '@User.Identity.Name';
+                var _toserialize = { username: username, subscription: subscription };
+                var data = JSON.stringify({ 'model': _toserialize });
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SubscribeToTeams", "Home")',
+                    dataType: 'json',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    success: function(data) {
+                        if (data.success = true) {
+                            $('#step4').hide(500);
+                            $('#step5').show(500);
+                        }
+                    }
+                });
+
+
+            }
+        });
+
+        $("#form5").submit(function(event) {
+            event.preventDefault();
+            name = $("#fname").val();
+            surrname = $("#surrname").val();
+            orchidURL = $("#orchidurl").val();
+            privateURL = $("#url").val();
+            property = $("#selection2").val();
+
+            username = '@User.Identity.Name';
+            var _toserialize = {
+                name: name,
+                surrname: surrname,
+                orchidURL: orchidURL,
+                privateURL: privateURL,
+                property: property,
+                username: username
+            };
+            var data = JSON.stringify({ 'model': _toserialize });
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddNewWriter", "Home")',
+                dataType: 'json',
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    if (data.success == true) {
+                        $("#form5").hide(500);
+                        $("#finalwriter").show(300);
+
+                    }
+
+                }
+            });
+
+
+        });
+
+        $("#move2").click(function() {
+            if (completed1 == true) {
+                window.location = "/Home/Index";
+            } else
+                alert("Πρέπει να επιλεγεί ρόλος στο σύστημα!");
+
+
+        });
+
+    </script>
+}

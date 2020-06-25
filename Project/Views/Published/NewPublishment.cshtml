@@ -1,0 +1,613 @@
+﻿@{
+    ViewBag.Title = "NewPublishment";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <p class="h5">Εισάγετε το XML Link για την εισαγωγή πολλών δημοσιεύσεων</p>
+    <form id="submit_form">
+        <div class="input-group mb-3">
+            <input type="text" id="givenlink" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Αναζήτηση</button>
+            </div>
+        </div>
+    </form>
+
+
+    <div id="results">
+
+    </div>
+
+    <div id="finalClass">
+        <button class="btn btn-success" id="addtodb">Ολοκλήρωση</button>
+        <p class="h6">*Οι διπλότυπες εγγραφές θα παραληφθούν αυτόματα</p>
+    </div>
+
+    <div id="message">
+        <p id="count" class="h3">Οι εγγραφές προστέθηκαν με επιτυχία</p>
+    </div>
+
+    <div id="progress" class="progress">
+        <div id="progres" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+    </div>
+    <br/>
+    <div id="manual">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title">Χειροκίνητη εισαγωγή Δημοσίευσης</h3>
+
+                <form id="form3">
+                    <p id="para" class="lead">Επιλογή τύπου Δημοσίευσης</p>
+                    <select id="selection" class="form-control form-control-lg">
+                        <option>Άρθρο</option>
+                        <option>Βιβλίο</option>
+                        <option>Κεφάλαιο Βιβλίου</option>
+                        <option>Συνέδριο/Workshop</option>
+                    </select>
+                    <br/>
+
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Επόμενο</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="article">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title">Νέο Άρθρο</h3>
+
+                <form id="article">
+                    <p id="para" class="lead">Εισαγωγή στοιχείων</p>
+                    <br/>
+                    <div class="form-group row">
+                        <label for="atitle" class="col-sm-2 col-form-label">Τίτλος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="atitle">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ayear" class="col-sm-2 col-form-label">Έτος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="ayear">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="apages" class="col-sm-2 col-form-label">Σελίδες:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="apages">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="aauthor" class="col-sm-2 col-form-label">Συγγραφείς:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="aauthor">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="avolume" class="col-sm-2 col-form-label">Τόμος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="avolume">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="amagname" class="col-sm-2 col-form-label">Όνομα περιοδικού:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="amagname">
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Επόμενο</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="inproceeding">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title">Νέο Συνέδριο/Workshop</h3>
+
+                <form id="inproceeding">
+                    <p id="para" class="lead">Εισαγωγή στοιχείων</p>
+                    <br/>
+                    <div class="form-group row">
+                        <label for="intitle" class="col-sm-2 col-form-label">Τίτλος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="intitle">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inyear" class="col-sm-2 col-form-label">Έτος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inyear">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="inpages" class="col-sm-2 col-form-label">Σελίδες:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inpages">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inauthor" class="col-sm-2 col-form-label">Συγγραφείς:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inauthor">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="indoi" class="col-sm-2 col-form-label">Διεύθυνση DOI:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="indoi">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inbooktitle" class="col-sm-2 col-form-label">Τίτλος Βιβλίου</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inbooktitle">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Επόμενο</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="book">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title">Νέο Βιβλίο</h3>
+
+                <form id="book">
+                    <p id="para" class="lead">Εισαγωγή στοιχείων</p>
+                    <br/>
+                    <div class="form-group row">
+                        <label for="btitle" class="col-sm-2 col-form-label">Τίτλος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="btitle">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="byear" class="col-sm-2 col-form-label">Έτος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="byear">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="bvolume" class="col-sm-2 col-form-label">Τόμος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="bvolume">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="bauthor" class="col-sm-2 col-form-label">Συγγραφείς:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="bauthor">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="bisbn" class="col-sm-2 col-form-label">ISBN:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="bisbn">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="bissn" class="col-sm-2 col-form-label">ISSN:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="bissn">
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Επόμενο</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="inbook">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title">Νέο Κεφάλαιο Βιβλίου</h3>
+
+                <form id="inbook">
+                    <p id="para" class="lead">Εισαγωγή στοιχείων</p>
+                    <br/>
+                    <div class="form-group row">
+                        <label for="inbtitle" class="col-sm-2 col-form-label">Τίτλος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inbtitle">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inbyear" class="col-sm-2 col-form-label">Έτος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inbyear">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="inbvolume" class="col-sm-2 col-form-label">Τόμος:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inbvolume">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inbauthor" class="col-sm-2 col-form-label">Συγγραφείς:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inbauthor">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inbisbn" class="col-sm-2 col-form-label">ISBN:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inbisbn">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inbissn" class="col-sm-2 col-form-label">ISSN:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inbissn">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inbchapter" class="col-sm-2 col-form-label">Κεφάλαιο:</label>
+                        <div class="col-sm-10">
+                            <input required="true" type="text" class="form-control" id="inbchapter">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Επόμενο</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $("#manual").submit(function(event) {
+            event.preventDefault();
+            var result = $("#selection").val();
+            switch (result) {
+            case "Άρθρο":
+                $("#manual").hide(300);
+                $("#article").show(300);
+                break;
+            case "Συνέδριο/Workshop":
+                $("#manual").hide(300);
+                $("#inproceeding").show(300);
+                break;
+            case "Βιβλίο":
+                $("#manual").hide(300);
+                $("#book").show(300);
+                break;
+            case "Κεφάλαιο Βιβλίου":
+                $("#manual").hide(300);
+                $("#inbook").show(300);
+
+
+            default:
+            }
+        })
+    </script>
+
+    <script>
+        $("#article").submit(function(event) {
+            event.preventDefault();
+            var title = $("#atitle").val();
+            var year = $("#ayear").val();
+            var pages = $("#apages").val();
+            var author = $("#aauthor").val();
+            var volume = $("#avolume").val();
+            var mag_name = $("#amagname").val();
+            var type = 'article';
+            var _toserialize = {
+                title: title,
+                year: year,
+                pages: pages,
+                volume: volume,
+                authors: author,
+                medianame: mag_name,
+                type: type
+            };
+            var data = JSON.stringify({ 'model': _toserialize });
+            $.ajax({
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("ManualAdd", "Published")',
+                success: function(result) {
+                    alert("Η δημοσίευση προστέθηκε επιτυχώς!");
+
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+        $("#inproceeding").submit(function(event) {
+            event.preventDefault();
+            var title = $("#intitle").val();
+            var year = $("#inyear").val();
+            var author = $("#inauthor").val();
+            var pages = $("#inpages").val();
+            var addresses = $("#indoi").val();
+            var booktitle = $("#inbooktitle").val();
+            var type = 'inproceeding';
+            var _toserialize = {
+                title: title,
+                year: year,
+                authors: author,
+                pages: pages,
+                addresses: addresses,
+                medianame: booktitle,
+                type: type
+            };
+            var data = JSON.stringify({ 'model': _toserialize });
+            $.ajax({
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("ManualAdd", "Published")',
+                success: function(result) {
+                    alert("Η δημοσίευση προστέθηκε επιτυχώς!");
+
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+        $("#book").submit(function(event) {
+            event.preventDefault();
+            var title = $("#btitle").val();
+            var year = $("#byear").val();
+            var author = $("#bauthor").val();
+            var volume = $("#bvolume").val();
+            var ISBN = $("#bisbn").val();
+            var ISSN = $("#bissn").val();
+
+            var type = 'book';
+            var _toserialize = { title: title, year: year, authors: author, volume: volume, ISBN: ISBN, ISSN: ISSN, type: type };
+            var data = JSON.stringify({ 'model': _toserialize });
+            $.ajax({
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("ManualAdd", "Published")',
+                success: function(result) {
+                    alert("Η δημοσίευση προστέθηκε επιτυχώς!");
+
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $("#inbook").submit(function(event) {
+            event.preventDefault();
+            var title = $("#inbtitle").val();
+            var year = $("#inbyear").val();
+            var author = $("#inbauthor").val();
+            var volume = $("#inbvolume").val();
+            var ISBN = $("#inbisbn").val();
+            var ISSN = $("#inbissn").val();
+            var chapter = $("#inbchapter").val();
+
+            var type = 'inbook';
+            var _toserialize = { title: title, year: year, authors: author, chapter: chapter, volume: volume, ISBN: ISBN, ISSN: ISSN, type: type };
+            var data = JSON.stringify({ 'model': _toserialize });
+            $.ajax({
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("ManualAdd", "Published")',
+                success: function(result) {
+                    alert("Η δημοσίευση προστέθηκε επιτυχώς!");
+
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $("#finalClass").hide();
+            $("#progres").hide();
+            $("#message").hide();
+            $("#results").hide();
+            $("#article").hide();
+            $("#inproceeding").hide();
+            $("#book").hide();
+            $("#inbook").hide();
+        });
+    </script>
+
+    <script>
+        $("#submit_form").submit(function(event) {
+            event.preventDefault();
+            $("#manual").hide(500);
+            $("#progres").show();
+            var _toserialize = $("#givenlink").val();
+            var data = JSON.stringify({ link: _toserialize });
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AnalyzeXML", "Published")',
+                data: data,
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    if (data.success == false) {
+                        alert("To Link δεν είναι σωστό");
+                        $("#progres").hide();
+                        return;
+                    }
+                    var txt2 = $("<h2></h2>").text("Άρθρα");
+                    txt2.appendTo($("#results"));
+                    var articles = data.articles;
+                    var $table = $("<table class='table table-bordered'></table>");
+                    var $head = $("<thead></thead>");
+                    var $line = $("<tr></tr>");
+                    $line.append($("<th scope='col'></td>").html("Συγγραφείς"));
+                    $line.append($("<th scope='col'></td>").html("Όνομα Περιοδικού"));
+                    $line.append($("<th scope='col' ></td>").html("Αριθμός Τόμου"));
+                    $line.append($("<th scope='col' ></td>").html("DOI"));
+                    $line.append($("<th scope='col' ></td>").html("Αρ Σελίδων"));
+                    $line.append($("<th scope='col'></td>").html("Διεύθυνση Εκδότη"));
+                    $table.append($head);
+                    $table.append($line);
+                    for (var i = 0; i < articles.length; i++) {
+                        var ar = articles[i];
+                        var $line = $("<tr></tr>");
+                        $line.append($("<td scope='row'></td>").html(ar.author));
+                        $line.append($("<td scope='row'></td>").html(ar.journal));
+                        $line.append($("<td scope='row' ></td>").html(ar.volume));
+                        $line.append($("<td scope='row' ></td>").html(ar.ee));
+                        $line.append($("<td scope='row' ></td>").html(ar.pages));
+                        $line.append($("<td scope='row'></td>").html(ar.url));
+                        $table.append($line);
+                    }
+                    $table.appendTo($("#results"));
+
+                    var txt2 = $("<h2></h2>").text("Συνέδριο/Workshop");
+                    txt2.appendTo($("#results"));
+                    var inproceedings = data.inproceedings;
+                    var $table = $("<table class='table table-bordered'></table>");
+                    var $head = $("<thead></thead>");
+                    var $line = $("<tr></tr>");
+                    $line.append($("<th scope='col'></td>").html("Τίτλος "));
+                    $line.append($("<th scope='col'></td>").html("Συντάκτες"));
+                    $line.append($("<th scope='col' ></td>").html("Ευρος σελίδων"));
+                    $line.append($("<th scope='col' ></td>").html("Έτος"));
+                    $line.append($("<th scope='col' ></td>").html("DOI"));
+                    $line.append($("<th scope='col'></td>").html("Διεύθυνση Εκδότη"));
+                    $line.append($("<th scope='col'></td>").html("Τόμος"));
+                    $table.append($head);
+                    $table.append($line);
+                    for (var i = 0; i < inproceedings.length; i++) {
+                        var ar = inproceedings[i];
+                        var $line = $("<tr></tr>");
+                        $line.append($("<td scope='row'></td>").html(ar.booktitle));
+                        $line.append($("<td scope='row'></td>").html(ar.author));
+                        $line.append($("<td scope='row' ></td>").html(ar.pages));
+                        $line.append($("<td scope='row' ></td>").html(ar.year));
+                        $line.append($("<td scope='row' ></td>").html(ar.ee));
+                        $line.append($("<td scope='row'></td>").html(ar.url));
+                        $line.append($("<td scope='row'></td>").html(ar.volume));
+                        $table.append($line);
+                    }
+                    $table.appendTo($("#results"));
+
+                    var txt2 = $("<h2></h2>").text("Βιβλίου");
+                    txt2.appendTo($("#results"));
+                    var inproceedings = data.books;
+                    var $table = $("<table class='table table-bordered'></table>");
+                    var $head = $("<thead></thead>");
+                    var $line = $("<tr></tr>");
+                    $line.append($("<th scope='col'></td>").html("Συγγραφέας"));
+                    $line.append($("<th scope='col'></td>").html("Τίτλος"));
+                    $line.append($("<th scope='col' ></td>").html("Εκδότης"));
+                    $line.append($("<th scope='col' ></td>").html("Έτος"));
+                    $line.append($("<th scope='col' ></td>").html("Τόμος"));
+                    $line.append($("<th scope='col'></td>").html("Αρ."));
+                    $line.append($("<th scope='col'></td>").html("Σειρά"));
+                    $line.append($("<th scope='col'></td>").html("Διεύθυνση"));
+                    $line.append($("<th scope='col'></td>").html("Έκδρομη"));
+                    $line.append($("<th scope='col'></td>").html("Μήνας Κ."));
+                    $line.append($("<th scope='col'></td>").html("Σημειώσεις"));
+                    $table.append($head);
+                    $table.append($line);
+                    for (var i = 0; i < inproceedings.length; i++) {
+                        var ar = inproceedings[i];
+                        var $line = $("<tr></tr>");
+                        $line.append($("<td scope='row'></td>").html(ar.author));
+                        $line.append($("<td scope='row'></td>").html(ar.title));
+                        $line.append($("<td scope='row' ></td>").html(ar.publisher));
+                        $line.append($("<td scope='row' ></td>").html(ar.year));
+                        $line.append($("<td scope='row' ></td>").html(ar.volume));
+                        $line.append($("<td scope='row'></td>").html(ar.number));
+                        $line.append($("<td scope='row'></td>").html(ar.series));
+                        $line.append($("<td scope='row'></td>").html(ar.address));
+                        $line.append($("<td scope='row'></td>").html(ar.edition));
+                        $line.append($("<td scope='row'></td>").html(ar.month));
+                        $line.append($("<td scope='row'></td>").html(ar.note));
+                        $table.append($line);
+                    }
+                    $table.appendTo($("#results"));
+
+                    var txt2 = $("<h2></h2>").text("Κεφάλαιο Βιβλίου");
+                    txt2.appendTo($("#results"));
+                    var inproceedings = data.inbooks;
+                    var $table = $("<table class='table table-bordered'></table>");
+                    var $head = $("<thead></thead>");
+                    var $line = $("<tr></tr>");
+                    $line.append($("<th scope='col'></td>").html("Τίτλος "));
+                    $line.append($("<th scope='col'></td>").html("Συντάκτες"));
+                    $line.append($("<th scope='col' ></td>").html("Κεφάλαιο"));
+                    $line.append($("<th scope='col' ></td>").html("Εκδότης"));
+                    $line.append($("<th scope='col' ></td>").html("Έτος κυκλοφορίας"));
+                    $table.append($head);
+                    $table.append($line);
+                    for (var i = 0; i < inproceedings.length; i++) {
+                        var ar = inproceedings[i];
+                        var $line = $("<tr></tr>");
+                        $line.append($("<td scope='row'></td>").html(ar.title));
+                        $line.append($("<td scope='row'></td>").html(ar.author));
+                        $line.append($("<td scope='row' ></td>").html(ar.chapter));
+                        $line.append($("<td scope='row' ></td>").html(ar.publisher));
+                        $line.append($("<td scope='row' ></td>").html(ar.year));
+                        $table.append($line);
+                    }
+
+                    $table.appendTo($("#results"));
+                    $("#finalClass").show(500);
+                    $("#progres").hide();
+                    $("#results").show(500);
+                }
+
+            });
+
+        });
+    </script>
+
+    <script>
+        $("#addtodb").click(function() {
+
+            $("#progres").show(500);
+            var _toserialize = $("#givenlink").val();
+            var data = JSON.stringify({ link: _toserialize });
+            $.ajax({
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("AddToDataBase", "Published")',
+                success: function(result) {
+                    $("#progres").hide(500);
+                    $("#results").hide(500);
+                    $("#finalClass").hide(500);
+                    $("#count").text(result.counter + " στοιχεία προστέθηκαν με επιτυχία");
+                    $("#message").show(500);
+
+                }
+            });
+        });
+    </script>
+}
+else
+{
+    <h6>Πρέπει να συνδεθείς για την προβολή της σελίδας</h6>
+}

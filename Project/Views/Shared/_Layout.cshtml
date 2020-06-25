@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <embed src="~/Images/logo.svg" quality="best" width="3%" height="3%"/>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.Identity.Name == "admin")
+        {
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" onclick="location.href = '@Url.Action("Index", "Home")'">Αρχικη Σελίδα <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" onclick="location.href = '@Url.Action("UserManager", "Admin")'">Διαχείρηση Χρηστών<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Συγγραφείς
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" onclick="location.href = '@Url.Action("WriterEdit", "Admin")'">Προσθήκη νέου Συγγραφέα</a>
+                            <a class="dropdown-item" onclick="location.href = '@Url.Action("WriterManager", "Admin")'">Διαχείρηση συγγραφέων</a>
+
+                        </div>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Μονάδες (Units)
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" onclick="location.href = '@Url.Action("NewUnit", "Home")'">Πρσσθήκη Μονάδας</a>
+                            <a class="dropdown-item" onclick="location.href = '@Url.Action("UnitsManager", "Home")'">Προβολή και επεξεργασία Μονάδας</a>
+
+                        </div>
+                    </li>
+                </ul>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @User.Identity.Name
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" onclick="location.href = '@Url.Action("Profile", "Home")'">Προφίλ</a>
+                        <a class="dropdown-item" onclick="location.href = '@Url.Action("SignOut", "Home")'">Αποσύνδεση</a>
+
+                    </div>
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" onclick="location.href = '@Url.Action("Index", "Home")'">Αρχική Σελίδα </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" onclick="location.href = '@Url.Action("NewPublishment", "Published")'">Προσθήκη Δημοσίευσης</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" onclick="location.href = '@Url.Action("PubManager", "Published")'">Διαχείρηση Δημοσιεύσεων</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" onclick="location.href = '@Url.Action("Statistics", "Stats")'">Στατιστηκά στοιχεία</a>
+                    </li>
+                </ul>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @User.Identity.Name
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" onclick="location.href = '@Url.Action("Profile", "Home")'">Προφίλ</a>
+                        <a class="dropdown-item" onclick="location.href = '@Url.Action("SignOut", "Home")'">Αποσύνδεση</a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <button class="btn btn-success" onclick="location.href = '@Url.Action("Login", "Home")'">Είσοδος </button>
+        </div>
+    }
+
+
+</nav>
+<div class="container body-content">
+    <br/><br/>
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Created by me</p>
+    </footer>
+</div>
+
+
+</body>
+</html>

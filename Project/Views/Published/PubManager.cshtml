@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Core.Models.Publishment>
+@{
+    ViewBag.Title = "PubManager";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <h6 class="display-4">Δημοσιεύσεις στην κατοχή σας</h6>
+    <p class="d-block">Παρακάτω φαίνονται οι δημσοσιεύσεις που βρίσκονται στην κατοχή σας. Μπορείτε να τις τροποποιήσετε πατώντας πάνω σε αυτές.</p>
+    <table class="table table-striped">
+
+        <thead>
+        <tr>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row"></th>
+                <td>
+                    <a href="@Url.Action("OpenPage", "Published", new {item.title})">@item.title</a>
+
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h6>Πρέπει να συνδεθείς για την προβολή της σελίδας</h6>
+}

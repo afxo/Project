@@ -1,0 +1,234 @@
+﻿@model Project.Models.ProfileModel
+@{
+    ViewBag.Title = "Profile";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="card-title mb-4">
+                            <div class="d-flex justify-content-start">
+                                <div class="image-container">
+                                    <img src="~/Images/profile.png" id="imgProfile" style="height: 150px; width: 150px;" class="img-thumbnail"/>
+                                    <div class="middle">
+                                        <input type="file" style="display: none;" id="profilePicture" name="file"/>
+                                    </div>
+                                </div>
+                                <div class="userData ml-3">
+                                    <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold">
+                                        @Model.username
+                                    </h2>
+                                    <h6 class="d-block"><a href="javascript:void(0)">@Model.count</a> Ανεβασμένες Δημοισεύσεις</h6>
+                                    <h6 class="d-block">Στην ενότητα προφίλ μπορείτε να δείτε πληροφορίες που αφορούν τον λογαριασμό σας καθώς και να τις τροποποιήσετε.</h6>
+                                    <button id="update_button" class="  btn  btn-primary d-block">Ενημέρωση στοιχείων</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Πληροφορίες Λογαριασμού</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false">Πληροφορίες Συγγραφέα</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content ml-1" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight: bold;">ID</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input id="id_val" class="form-control" readonly="readonly" type="text" value=" @Model.ID"/>
+
+                                            </div>
+                                        </div>
+                                        <hr/>
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight: bold;">Username</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input class="form-control" readonly="readonly" type="text" value=" @Model.username"/>
+                                            </div>
+                                        </div>
+                                        <hr/>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight: bold;">Ρόλος</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input class="form-control" readonly="readonly" type="text" value=" @Model.role"/>
+
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight: bold;">Μονάδα</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                @if (Model.role == "Υπεύθυνος")
+                                                {
+                                                    <input class="form-control" id="unitselection" readonly="readonly" type="text" value=" @Model.membership"/>
+                                                }
+                                                else
+                                                {
+                                                    <select id="unitselection" class="form-control form-control-lg">
+                                                        @foreach (var item in Model.avaliableUnits)
+                                                        {
+                                                            if (Model.membership == "Δεν ανήκετε σε κάποια μονάδα")
+                                                            {
+                                                                <option>Δεν ανήκετε σε κάποια μονάδα</option>
+                                                            }
+                                                            if (Model.membership == item.name)
+                                                            {
+                                                                <option selected="selected">@Html.DisplayFor(m => item.name)</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option>@Html.DisplayFor(m => item.name)</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                }
+                                            </div>
+                                        </div>
+                                        <hr/>
+
+
+                                    </div>
+                                    <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                                        <div class="row">
+                                            <div >
+                                                <label style="font-weight: bold;">Σε αυτήν την καρτέλα μπορείτε είτε να τροποποιήσετε τα στοιχεία σας ως συγγραφέας είτε να εγγραφείτε και ως συγγραφέας.</label>
+                                                <label style="font-weight: bold;">Τα στοιχεία πρέπει να είναι σε μορφή αντίστοιχη του dblp για να συμμετέχετε σε μελλοντικές δημοσιεύσεις.</label>
+                                            </div>
+
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight: bold;">Όνομα</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input id="name_val" class="form-control" type="text" value="@Model.writername"/>
+                                            </div>
+                                        </div>
+                                        <hr/>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight: bold;">Επώνυμο</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input id="surr_val" class="form-control" type="text" value="@Model.writersurrname"/>
+                                            </div>
+                                        </div>
+                                        <hr/>
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight: bold;">OrchidUrl</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input id="orchid_val" class="form-control" type="text" value="@Model.writerorchidurl"/>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight: bold;">Προσωπικό Url</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input id="private_val" class="form-control" type="text" value="@Model.writerprivateurl"/>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight: bold;">Ιδιότητα</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <select id="propery_selection" class="form-control form-control-lg">
+                                                    @foreach (var item in Model.choises)
+                                                    {
+                                                        if (Model.writerproperty == "")
+                                                        {
+                                                            <option selected="selected"></option>
+                                                        }
+                                                        if (Model.writerproperty == item)
+                                                        {
+                                                            <option selected="selected">@item</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option>@item</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $("#update_button").click(function() {
+            var id = $("#id_val").val();
+            var unit = $("#unitselection").val();
+            var name = $("#name_val").val();
+            var surrname = $("#surr_val").val();
+            var orchid = $("#orchid_val").val();
+            var private = $("#private_val").val();
+            var property = $("#propery_selection").val();
+            var _toserialize = {
+                ID: id,
+                membership: unit,
+                writername: name,
+                writersurrname: surrname,
+                writerorchidurl: orchid,
+                writerprivateurl: private,
+                writerproperty: property
+            };
+            var data = JSON.stringify({ 'model': _toserialize });
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateTable", "Home")',
+                dataType: 'json',
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    alert("Το profile ενημερώθηκε με επιτυχία");
+                }
+
+            });
+
+        });
+    </script>
+}

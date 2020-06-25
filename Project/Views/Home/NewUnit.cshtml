@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "NewUnit";
+}
+@if (User.Identity.Name.Contains("admin"))
+{
+    <main class="my-form">
+        <div class="cotainer">
+            <div id="alertgroup" class="alert alert-danger">
+                <strong class="text"></strong>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">Προσθήκη Νέας Μονάδας</div>
+                        <div class="card-body">
+                            <form name="my-form" id="new_unit">
+                                <div class="form-group row">
+                                    <label for="full_name" class="col-md-4 col-form-label text-md-right">Όνομα Μονάδας</label>
+                                    <div class="col-md-6">
+                                        <input required="true" type="text" id="full_name" class="form-control" name="name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label text-md-right">Τύπος Μονάδας</label>
+
+                                    <div class="form-check">
+
+                                        <label class="form-check-label">
+                                            <input id="ergastirio" type="radio" value="lab" class="form-check-input" name="optradio">Εργαστήριο
+                                        </label>
+                                    </div>
+                                    <span></span>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" value="dep" id="tmima" class="form-check-input" name="optradio">Τμήμα
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="user_name" class="col-md-4 col-form-label text-md-right">Όνομα Ιδρύματος</label>
+                                    <div class="col-md-6">
+                                        <input required="true" type="text" id="facility_name" class="form-control" name="facility_name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="phone_number" class="col-md-4 col-form-label text-md-right">Περιγραφή</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="description" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label text-md-right">Διεύθυνση Τμήματος (URL)</label>
+                                    <div class="col-md-6">
+                                        <input required="true" type="text" id="url" class="form-control">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        Προσθήκη
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <script>
+        $("#new_unit").submit(function(event) {
+            event.preventDefault();
+            name = $("#full_name").val();
+            type = $("input[name='optradio']:checked").val();
+            facility_name = $("#facility_name").val();
+            description = $("#description").val();
+            url = $("#url").val();
+            var _toserialize = { name: name, type: type, institute: facility_name, description: description, url: url };
+            var data = JSON.stringify({ unit: _toserialize });
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("NewUnit", "Home")',
+                dataType: 'json',
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    if (data.success == true) {
+                        $(".text").html("Το τμήμα προστέθηκε με επιτυχία");
+                        $("#alertgroup").removeClass("alert alert-danger");
+                        $("#alertgroup").addClass("alert alert-success");
+                        $("#alertgroup").show(500);
+                    } else {
+                        $(".text").html("Υπήρξε πρόβλημα στην εισαγωγή");
+                        $("#alertgroup").show(500);
+                    }
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#alertgroup").hide();
+        });
+    </script>
+}
+else
+{
+    <h6>Η σελίδα είναι διαθέσιμη μόνο για τους διαχειστές του ιστότοπου</h6>
+}

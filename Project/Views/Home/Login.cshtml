@@ -1,0 +1,108 @@
+﻿@model Project.Models.UserModel
+@{
+    ViewBag.Title = "Login";
+}
+
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<body>
+<div class="card">
+    <article class="card-body">
+        <h4 class="card-title text-center mb-4 mt-1">Σύνδεση Χρήστη</h4>
+        <hr>
+        <p id="errormessage" class="text-success text-center">Some message goes here</p>
+        <form id="LoginForm">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <input id="username" class="form-control" placeholder="Όνομα χρήστη" type="text">
+                </div> <!-- input-group.// -->
+            </div> <!-- form-group// -->
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <input id="password" class="form-control" placeholder="******" type="password">
+                </div> <!-- input-group.// -->
+            </div> <!-- form-group// -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Σύνδεση </button>
+            </div> <!-- form-group// -->
+            <p class="text-center">
+                <a onclick="location.href = '@Url.Action("Register", "Home")'" class="btn">Εγγραφή Νέου χρήστη</a>
+            </p>
+        </form>
+        <div id="progress" class="progress">
+            <div id="progres" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+        </div>
+    </article>
+</div>
+
+</body>
+
+<script>
+    $(document).ready(function() {
+
+        $("#errormessage").hide();
+        $("#progress").hide();
+    });
+</script>
+
+<script>
+    $("#LoginForm").submit(function(event) {
+        event.preventDefault();
+        $("#progress").show();
+        username = $("#username").val();
+        password = $("#password").val();
+        var _toserialize = { username: username, password: password };
+        var data = JSON.stringify({ model: _toserialize });
+        if (password == "") {
+            alert("Συμπληρώστε τον κωδικό πρόσβασης");
+            $("#progress").hide();
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("LogUserIn", "Home")',
+            dataType: 'json',
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                if (data.responseText == "Login") {
+                    var _toserialize = { username: username };
+                    var data = JSON.stringify(_toserialize);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("CheckFirstTime", "Home")',
+                        dataType: 'json',
+                        data: data,
+                        contentType: "application/json; charset=utf-8",
+                        success: function(data) {
+                            if (data.success == false)
+                                window.location = "/Home/Index";
+                            else
+                                window.location = "/Home/FirstLogin";
+
+                        }
+                    });
+
+                } else {
+                    $("#errormessage").text(data.responseText);
+                    $("#errormessage").show(500);
+                    $("#progress").hide();
+                }
+            }
+
+        });
+
+
+    });
+</script>

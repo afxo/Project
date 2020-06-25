@@ -1,0 +1,109 @@
+﻿@model Project.Models.UserModel
+@{
+    ViewBag.Title = "Register";
+}
+
+
+<body>
+<div id="alertgroup" class="alert alert-danger">
+    <strong class="text"></strong>
+</div>
+
+<div id="succesgroup" class="alert alert-success">
+    <strong class="text"></strong>
+</div>
+<form id="reg_form">
+
+    <fieldset>
+        <div id="legend">
+            <legend class="">Εγγραφή νέου Χρήστη</legend>
+        </div>
+        <div class="control-group">
+            <!-- Username -->
+            <label class="control-label" for="username">Όνομα χρήστη</label>
+            <div class="controls">
+                <input type="text" id="username" name="username" placeholder="" class="form-control">
+                <p class="help-block">Το όνομα χρήστη είναι μοναδικό και χρησιμοποιείται για την σύνδεση στην πλατφόρμα</p>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <!-- Password-->
+            <label class="control-label" for="password">Κωδικός Πρόσβασης</label>
+            <div class="controls">
+                <input type="password" id="password" name="password" class="form-control" placeholder="">
+
+                <p class="help-block">Τουλάχιστον 6 χαρακτήρες</p>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <!-- Password -->
+            <label class="control-label" for="password_confirm">Επιβεβαίωση Κωδικού</label>
+            <div class="controls">
+                <input type="password" id="password_confirm" class="form-control" name="password_confirm" placeholder="">
+                <p class="help-block">Εισάγετε ξανά τον κωδικό πρόσβάσής σας</p>
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <!-- Button -->
+            <div class="controls">
+                <button type="submit" class="btn btn-success">Εγγραφή</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+</body>
+
+
+<script>
+    $("#reg_form").submit(function(event) {
+        event.preventDefault();
+        $("#alertgroup").hide(300);
+        var data = $("#reg_form").serialize();
+        var pas = $("#password").val();
+        var pas2 = $("#password_confirm").val();
+        if (pas != pas2) {
+            $(".text").html("Οι κωδικοί πρόσβασης δεν ταιριάζουν");
+            $("#alertgroup").show(500);
+        } else {
+            $("#alertgroup").hide(500);
+            username = $("#username").val();
+            password = $("#password").val();
+            var _toserialize = { username: username, password: password, role: "thanos" };
+            var data = JSON.stringify({ 'model': _toserialize });
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CreateUser", "Home")',
+                dataType: 'json',
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    if (data.responseText == "") {
+                        $(".text").html("Η εγγραφή ολοκληρώθηκε");
+                        $("#succesgroup").show(500);
+                    } else {
+                        $(".text").html(data.responseText);
+                        $("#alertgroup").show(500);
+                    }
+
+
+                }
+            });
+
+        }
+
+
+    });
+
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#alertgroup").hide();
+        $("#succesgroup").hide();
+    });
+</script>

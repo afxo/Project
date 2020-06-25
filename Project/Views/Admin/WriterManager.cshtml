@@ -1,0 +1,72 @@
+﻿@model Project.Models.AdminWriterModel
+@{
+    ViewBag.Title = "WriterManager";
+}
+@if (User.Identity.Name.Contains("admin"))
+{
+    <h6 class="display-4">Διαχείρηση Συγγραφέων</h6>
+    <p class="d-block">Παρακάτω φαίνονται όλοι συγγραφείς που συμμετέχουν στο σύστημα. Επιλέγοντας έναν μπορείτε να τροποποιήστε τα στοιχεία του καθώς και να μάθετε πληροφορίες για αυτόν</p>
+
+    <table class="table table-bordered">
+
+        <thead>
+        <tr>
+            <th >Όνοματεπώνυμο</th>
+            <th >Τρόπος Κατασκευής</th>
+            <th >Άριθμός άρθρων που συμμετέχει</th>
+            <th >Επιλογές</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.writer.OrderBy(writer => writer.name))
+        {
+            <tr>
+
+                <th>
+                    <a href="@Url.Action("WriterEdit", "Admin", new {name=item.name,surrname=item.surrname})">@item.name @item.surrname</a>
+
+                </th>
+                <th>
+                    @if (item.property == "")
+                    {
+                        <h6>Δημιουργήθηκε αυτόματα</h6>
+                    }
+                    else
+                    {
+                        <h6>Χειροκίνητη εισαγωγή</h6>
+                    }
+                </th>
+
+                @foreach (var key in Model.counter)
+                {
+                    var fullname = item.name + " " + item.surrname;
+                    if (key.Key == fullname)
+                    {
+                        <td>
+                            @key.Value
+                        </td>
+                    }
+                }
+
+
+                <th>
+                    <form method="post" onsubmit="return Mconfirm()" action="@Url.Action("DeleteWriter", "Admin", new {id = item.ID})'">
+                        <button type="submit" class="btn btn-danger" value="Delete">Delete</button>
+                    </form>
+                </th>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <script>
+        function Mconfirm() {
+            return confirm(
+                "Είστε σίγουρος για την διαγραφή του στοιχείου? Η ενέργεια αυτή δεν θα μπορεί να αναιρεθεί");
+        }
+    </script>
+}
+else
+{
+    <h6>Μόνο οι διαχεισιστές έχουν πρόσβαση σε αυτή τη σελίδα</h6>
+}
